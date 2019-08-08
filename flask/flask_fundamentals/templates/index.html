@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Playground</title>
+    <style>
+    .center-div{
+        margin: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 3px;
+    }
+    .block{
+        width: 200px;
+        height: 200px;
+        display: inline-block;
+    }
+    .new_color{
+            background-color: {{other_color}};
+    }
+    </style>
+</head>
+<body>
+    <div class="h-100 w-100 row text-center">
+        <div class="w-50 center-div">
+            <h1 class="w-100 m-5 mx-auto">Welcome!</h1>
+            <div class="center-div">
+                {#way to comment out jinja code#}
+                {% for x in range(0,times): %}
+                    <div class="block m-1 new_color"></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
