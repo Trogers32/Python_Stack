@@ -1,0 +1,23 @@
+.center-div{
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 3px;
+}
+.block{
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+}
+.red{
+    background-color: red;
+}
+.black{
+    background-color: black;
+}
+div div{
+    vertical-align: top;
+}

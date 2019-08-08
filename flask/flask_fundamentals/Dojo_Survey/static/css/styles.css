@@ -1,0 +1,22 @@
+.center-div{
+    margin: auto;
+    top: 0;
+    right: 0; 
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 3px;
+}
+.block{
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+}
+td{
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid black;
+}
+h1{
+    padding-left: 45px;
+}
