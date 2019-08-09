@@ -6,16 +6,51 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>Playground</title>
+    <title>Dojo Survey</title>
     
 </head>
 <body>
-    <h1>Index Page</h1>
-    <h3>Create a User</h3>
-    <form action='/users' method='post'>
-        Name: <input type='text' name='name'>
-        Email: <input type='text' name='email'>
-        <input type='submit' value='create user'>
-    </form>
+    <div class="mt-5 w-50 h-50 mx-auto border border-dark p-4">
+        <form action='/result' method='post'>
+            <div class="questions d-inline-block">
+                <h3>
+                    Your Name: 
+                </h3>
+                <h3>
+                    <br>Dojo Location: 
+                </h3>
+                <h3>
+                    <br>Favorite Language: 
+                </h3>
+                <h3>
+                    <br>Comment (optional):
+                </h3>
+            </div>
+            <div class="entries d-inline-block float-right">
+                <h3>
+                    <input type='text' name='name'>
+                </h3><br>
+                <h3 class="text-right">
+                    <select class="w-100" name = "locations">
+                        <option value="San Jose">San Jose</option>
+                        <option value="Berkeley">Berkeley</option>
+                        <option value="Seattle">Seattle</option>
+                    </select>
+                </h3><br>
+                <h3>
+                    <select class="w-100" name="languages">
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="Python">Python</option>
+                        <option value="HTML">HTML</option>
+                        <option value="Jinja">Jinja</option>
+                    </select>
+                </h3>
+            </div>
+            <div class="end text-right">
+                <h3><textarea class="w-100" name="comment" rows="5"></textarea></h3>
+                <input class="col-2" type='submit' value='Submit'>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
