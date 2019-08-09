@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Dojo Survey</title>
+</head>
+<body>
+    <div class="mt-5 w-50 h-50 mx-auto border border-dark p-4">
+        <form action='/' method='get'>
+            <h3>
+                <u>Info Submitted:</u> 
+            </h3>
+            <div class="questions w-50 ml-n1 d-inline-block align-top">
+                <h3>
+                    Your Name: 
+                </h3><br>
+                <h3 class="mt-n2">
+                    Dojo Location: 
+                </h3><br>
+                <h3 class="mt-n2">
+                    Favorite Language: 
+                </h3><br>
+                <h3 class="mt-n2">
+                    Comment:
+                </h3>
+            </div>
+            <div class="entries w-50 ml-n1 d-inline-block">
+                <h4>{{ name_on_template }}</h4>
+                <br>
+                <h4>{{ location_on_template }}</h4>
+                <br>
+                <h4>{{ language_on_template }}</h4>
+                <br>
+                <h4>{{ comment_on_template }}</h4>
+            </div>
+            <div class="text-right">
+                <br><input class="col-2" type='submit' value='Go Back'>
+            </div>
+        </form>
+    </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
