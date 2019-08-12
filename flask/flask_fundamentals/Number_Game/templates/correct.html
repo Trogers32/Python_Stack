@@ -10,18 +10,21 @@
 </head>
 <body>
     <div class="mt-5 w-50 h-50 mx-auto border border-dark p-4 text-center">
-            <h3>
-                Welcome to the Great Number Game!<br><br>
+        <h3>
+            Welcome to the Great Number Game!<br><br>
+        </h3>
+        <h4>CONGRATULATIONS!</h4>
+        <div name="wrong" class="m-3 pt-5 display-4 bg-success border border-dark mx-auto" style="height:200px; width:200px;"> 
+            You guessed my number!
+        </div>
+        <div>
+            <h3 class="text-uppercase">
+                Your guess: {{prev_guess}}
             </h3>
-            <h4>I am thinking of a number between 1 and 100<br>Take a guess!</h4>
-        <form>
-            <div>
-                <h3 class="text-uppercase">
-                    Your guess: {{guess}}
-                </h3>
-                <button type="submit" formaction="/guess">Reset counter</button>
-            </div>
-        </form>
+            <form action="/destroy_session">
+                <button type="submit">Restart game?</button>
+            </form>
+        </div>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

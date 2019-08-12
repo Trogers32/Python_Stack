@@ -10,20 +10,22 @@
 </head>
 <body>
     <div class="mt-5 w-50 h-50 mx-auto border border-dark p-4 text-center">
-            <h3>
-                Welcome to the Great Number Game!<br><br>
-            </h3>
-            <h4>I am thinking of a number between 1 and 100<br>Take a guess!</h4>
+        <h3>
+            Welcome to the Great Number Game!<br><br>
+        </h3>
+        <h4>I am thinking of a number between 1 and 100<br>Take a guess!</h4>
+        {% if prev_guess < session['number'] %}
+            <div name="wrong" class="m-3 pt-5 display-4 bg-danger border border-dark mx-auto" style="height:200px; width:200px">Too low!</div>
+        {% else %}
+            <div name="wrong" class="m-3 pt-5 display-4 bg-danger border border-dark mx-auto" style="height:200px; width:200px">Too high!</div>
+        {% endif %}
         <form action="/guess" method="POST">
-            {% if session['guess'] == session['number'] %}
-                <div class="block col-1 red align-top"></div>
-            {% else %}
-                <div class="block col-1 black"></div>
-            {% endif %}
-            {{session['number']}}
             <div>
                 <h3 class="text-uppercase">
-                    Your guess: <input type="text" name="guess">
+                    Your guess: {{prev_guess}}
+                </h3>
+                <h3 class="text-uppercase">
+                    Guess again: <input type="text" name="guess">
                 </h3>
                 <button type="submit">Submit Guess</button>
             </div>

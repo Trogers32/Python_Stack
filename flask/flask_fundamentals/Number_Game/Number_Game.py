@@ -18,7 +18,10 @@ def destroy():
 @app.route('/guess', methods=["POST"])
 def set_counter():
         session['guess'] = request.form['guess']
-        return render_template("result.html", prev_guess=int(session['guess']))
+        if int(session['guess']) != session['number']:
+                return render_template("wrong.html", prev_guess=int(session['guess']))
+        else:
+                return render_template("correct.html", prev_guess=int(session['guess']))
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
