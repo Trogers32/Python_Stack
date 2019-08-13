@@ -9,12 +9,16 @@
     </head>
     <body>
         <div class="w-50 mx-auto">
-            <div class="mb-4 col-3 d-block p-3 border border-dark mx-auto text-center">
+            <div class="mb-4 col-lg d-block p-3 mx-auto text-center">
                 Random Word (attempt #{{request.session.counter}})
             </div>
             <div class="w-100 h-50 d-block p-3 border border-dark mx-auto text-center">
                 <h1 id=>{{request.session.rstring}}</h1>
             </div>
+            <form class="mt-4 text-center" action="/" method="post">
+                {% csrf_token %}
+                <input class="shadow-sm" type="submit" value="Generate"/>
+            </form>
         </div>
     	<!-- <img src="{% static 'app_name/images/image.jpg' %}" /> -->
     </body>

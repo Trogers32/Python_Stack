@@ -1,23 +1,29 @@
-(djangoPy3Env) > cd python_stack/django/django_intro
-(djangoPy3Env) django_intro> django-admin startproject your_project_name_here
+django-admin startproject your_project_name_here
 
-(djangoPy3Env) django_intro> cd your_project_name_here
-(djangoPy3Env) your_project_name_here> python manage.py runserver
+django_intro> cd your_project_name_here
 
-(djangoPy3Env) your_project_name_here> mkdir apps
+your_project_name_here> mkdir apps
 // THIS STEP CAN ALSO BE DONE BY MANUALLY CREATING A FILE USING A USER INTERFACE OF SOME KIND, SUCH AS THE FILE CREATION BUTTON IN VSCODE
 
 within app folder
-(djangoPy3Env) apps> python ../manage.py startapp your_app_name_here
+apps> python ../manage.py startapp your_app_name_here
 
-(djangoPy3Env) your_app_name_here> touch urls.py
+your_app_name_here> touch urls.py
 
 within your_project_name_here/apps/your_app_name_here/urls.py
 from django.conf.urls import url
 from . import views
                     
 urlpatterns = [
-    url(r'^$', views.index),
+    url(r'^$', views.index), #this is your html file redirect
+]
+
+within project urls.py
+from django.conf.urls import url, include
+from django.contrib import admin
+
+urlpatterns = [
+    url(r'^', include('apps.app_name.urls')),
 ]
 
 within your_project_name_here/your_project_name_here/settings.py
@@ -33,12 +39,14 @@ within your_project_name_here/your_project_name_here/settings.py
 
 
 within your_project_name_here/apps/your_app_name_here/views.py
-from django.shortcuts import render, HttpResponse
-def index(request):
-    return HttpResponsecopy("this is the equivalent of @app.route('/'
+from django.shortcuts import render, HttpResponse, redirect
+from django.utils.crypto import get_random_string
 
-(djangoPy3Env) your_project_name_here> python manage.py runserver
+def index(request):
+    return HttpResponsecopy("this is the equivalent of @app.route('/')")
 
 ENABLE SESSION python manage.py migrate
+
+your_project_name_here> python manage.py runserver
 
 localhost:8000

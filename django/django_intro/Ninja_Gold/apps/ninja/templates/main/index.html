@@ -1,0 +1,78 @@
+<html>
+<head>
+    <title>Ninja Gold</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/bootstrap.css' %}">    
+    <script src="{% static 'main/js/bootstrap.js' %}"></script>
+</head>
+<body> 
+    <header>
+    </header> 
+
+    <main role="main">  
+        <div>
+            <div class="w-50 row mx-auto pl-3 mt-3" name="gold">
+            <p>
+                Your gold: 
+                <p class="col-1 border border-dark ml-1 text-center">{{request.session.current_gold}}</p>
+                <form class="ml-4" action="/destroy_session">
+                    <input class="shadow-sm" type="submit" value="Reset gold"/>
+                </form>
+            </p>
+        </div>
+        <div class="row w-50 mx-auto" name="choices">
+            <div class="p-3 border border-dark mx-auto text-center d-inline-block" style="height:200px; width:200px">
+                <h3 class="mt-1">Farm</h3>
+                <p>(earns 10-20 gold)</p>
+                <form class="mt-4" action="/process_money" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="hidden" value="farm" />
+                    <input class="shadow-sm" type="submit" value="Find Gold!"/>
+                </form>
+            </div>
+            <div class="p-3 border border-dark mx-auto text-center d-inline-block" style="height:200px; width:200px">
+                <h3 class="mt-1">Cave</h3>
+                <p>(earns 5-10 gold)</p>
+                <form class="mt-4" action="/process_money" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="hidden" value="cave" />
+                    <input class="shadow-sm" type="submit" value="Find Gold!"/>
+                </form>
+            </div>
+            <div class="p-3 border border-dark mx-auto text-center d-inline-block" style="height:200px; width:200px">
+                <h3 class="mt-1">House</h3>
+                <p>(earns 2-5 gold)</p>
+                <form class="mt-4" action="/process_money" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="hidden" value="house" />
+                    <input class="shadow-sm" type="submit" value="Find Gold!"/>
+                </form>
+            </div>
+            <div class="p-3 border border-dark mx-auto text-center d-inline-block" style="height:200px; width:200px">
+                <h3 class="mt-1">Casino</h3>
+                <p>(earns/takes 0-50 gold)</p>
+                <form class="mt-4" action="/process_money" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="hidden" value="casino" />
+                    <input class="shadow-sm" type="submit" value="Find Gold!"/>
+                </form>
+            </div>
+        </div>
+        <div class="row w-50 mx-auto p-3" name="activities">
+            <p>
+                Activities: 
+            </p>
+            <ul class="w-100 border border-dark ml-1 list-unstyled" name="activities_list" style="height:150px; overflow:scroll">
+                {% for class, text in request.session.activities %}
+                    {% if class != 'negative' %}
+                        <li style="color:green">{{text}}</li>
+                    {% else %}
+                        <li style="color:red">{{text}}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        </div>
+    </main>
+</body>
+</html>
