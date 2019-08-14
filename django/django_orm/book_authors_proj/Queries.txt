@@ -1,0 +1,121 @@
+from apps.book_authors_app.models import *
+
+Create 5 books with the following names: C Sharp, Java, Python, PHP, Ruby:
+Book.objects.create(title="C Sharp")
+Book.objects.create(title="Java")
+Book.objects.create(title="Python")
+Book.objects.create(title="PHP")
+Book.objects.create(title="Ruby")
+
+Create 5 different authors: Jane Austen, Emily Dickinson, Fyodor Dostoevksy, William Shakespeare, Lau Tzu:
+Author.objects.create(first_name="Jane", last_name="Austen")
+Author.objects.create(first_name="Emily", last_name="Dickinson")
+Author.objects.create(first_name="Fyodor", last_name="Dostoevksy")
+Author.objects.create(first_name="William", last_name="Shakespeare")
+Author.objects.create(first_name="Lau", last_name="Tzu")
+
+Change the name of the C Sharp book to C#:
+c = Book.objects.get(id=1)
+c.title = "C#"
+c.save()
+Book.objects.get(id=1).title
+
+Change the first name of the 4th author to Bill:
+c = Author.objects.get(id=4)
+c.first_name="Bill"
+c.save()
+Author.objects.get(id=4).first_name
+
+Assign the first author to the first 2 books:
+b1 = Book.objects.get(id=1)
+b2 = Book.objects.get(id=2)
+auth = Author.objects.first()
+b1.author.add(auth)
+b1.save()
+b2.author.add(auth)
+b2.save()
+Author.objects.first().books.get(id=1).title
+Author.objects.first().books.get(id=2).title
+
+Assign the second author to the first 3 books:
+b1 = Book.objects.get(id=1)
+b2 = Book.objects.get(id=2)
+b3 = Book.objects.get(id=3)
+auth = Author.objects.get(id=2)
+b1.author.add(auth)
+b1.save()
+b2.author.add(auth)
+b2.save()
+b3.author.add(auth)
+b3.save()
+Author.objects.get(id=2).books.get(id=1).title
+Author.objects.get(id=2).books.get(id=2).title
+Author.objects.get(id=2).books.get(id=3).title
+
+Assign the third author to the first 4 books:
+b1 = Book.objects.get(id=1)
+b2 = Book.objects.get(id=2)
+b3 = Book.objects.get(id=3)
+b4 = Book.objects.get(id=4)
+auth = Author.objects.get(id=3)
+b1.author.add(auth)
+b1.save()
+b2.author.add(auth)
+b2.save()
+b3.author.add(auth)
+b3.save()
+b4.author.add(auth)
+b4.save()
+Author.objects.get(id=3).books.get(id=1).title
+Author.objects.get(id=3).books.get(id=2).title
+Author.objects.get(id=3).books.get(id=3).title
+Author.objects.get(id=3).books.get(id=4).title
+
+Assign the fourth author to the first 5 books (or in other words, all the books):
+b1 = Book.objects.get(id=1)
+b2 = Book.objects.get(id=2)
+b3 = Book.objects.get(id=3)
+b4 = Book.objects.get(id=4)
+b5 = Book.objects.get(id=5)
+auth = Author.objects.get(id=4)
+b1.author.add(auth)
+b1.save()
+b2.author.add(auth)
+b2.save()
+b3.author.add(auth)
+b3.save()
+b4.author.add(auth)
+b4.save()
+b5.author.add(auth)
+b5.save()
+Author.objects.get(id=4).books.get(id=1).title
+Author.objects.get(id=4).books.get(id=2).title
+Author.objects.get(id=4).books.get(id=3).title
+Author.objects.get(id=4).books.get(id=4).title
+Author.objects.get(id=4).books.get(id=5).title
+
+Retrieve all the authors for the 3rd book:
+alla = Book.objects.get(id=3).author.all()
+for a in alla:
+	print(a.first_name)
+
+Remove the first author of the 3rd book:
+ra = Book.objects.get(id=3).author.first()
+ra.delete()
+
+Add the 5th author as one of the authors of the 2nd book:
+b5 = Book.objects.get(id=5)
+auth = Author.objects.get(id=5)
+b5.author.add(auth)
+b5.save()
+Author.objects.get(id=5).books.get(id=5).title
+
+Find all the books that the 3rd author is part of:
+e = Author.objects.get(id=3).books.all()
+for a in e:
+	print(a.title)
+
+Find all the authors that contributed to the 5th book:
+a = Book.objects.get(id=5).author.all()
+for x in a:
+	print(x.first_name)

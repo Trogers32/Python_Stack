@@ -62,7 +62,7 @@ localhost:8000
 
 SHELL DIRECTIONS
 > python manage.py shell
-> from apps.your_app_name_here.models import *
+> from apps.book_authors_app.models import *
 
 URL EXAMPLES
 urlpatterns = [

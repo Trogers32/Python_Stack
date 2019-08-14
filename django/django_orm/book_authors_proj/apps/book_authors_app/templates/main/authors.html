@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>Books & Authors</title>
+
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <title>Books & Authors</title>
+    
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/checkout/">
+    
+        <!-- Bootstrap core CSS -->
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'main/css/bootstrap.css' %}">    
+        <script src="{% static 'main/js/bootstrap.js' %}"></script>
+    
+        <!-- Custom styles for this template -->
+        <link href="form-validation.css" rel="stylesheet">
+    </head>
+    <body class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 order-md-3 mb-4">
+                        <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for auth in authors %}
+                                        <tr>
+                                            <th scope="row">{{auth.id}}</th>
+                                            <td>{{auth.first_name}} {{auth.last_name}}</td>
+                                            <td><a href="/authors/{{auth.id}}">view</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                        </table>
+                </div>
+                <div class="w-25 order-md-2"></div>
+
+                <div class="col-md-4 order-md-1">
+                    <h4 class="mb-3 ml-5">Add an Author</h4>
+                    <form action="/new_author" class="needs-validation text-center" method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="mb-3 w-25 text-left">
+                                <label>First Name</label>
+                            </div>
+                            <div class="mb-3 w-50">
+                                <input type="text" class="form-control" name="first_name" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 w-25 text-left">
+                                <label>Last Name</label>
+                            </div>
+                            <div class="mb-3 w-50">
+                                <input type="text" class="form-control" name="last_name" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 w-25 text-left">
+                                <label for="lastName">Notes</label>
+                            </div>
+                            <div class="w-50 mb-3">
+                                <textarea row="10" cols="23" class="form-control" name="notes" required></textarea>
+                            </div>
+                        </div>
+                        <div class="w-50 ml-3">
+                            <button class="btn btn-primary btn-sm" type="submit">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+        <script src="form-validation.js"></script></body>
+    </html>
+    
