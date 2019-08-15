@@ -31,11 +31,20 @@
                 </p>
                 <h2>Books:</h2>
                 <ul>
-                    <li>{{auth.title}}</li>
+                    {% for book in auth_books %}
+                        <li>{{book.title}}</li>
+                    {% endfor %}
                 </ul>
-                <select name="books">
-                    <option value="title">{{auth.books}}</option>
-                </select>
+                <form class="mt-4" action="/append_book" method="post">
+                    {% csrf_token %}
+                    <select name="books">
+                        {% for book in other_books %}
+                            <option value="{{book.title}}">{{book.title}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" name="hidden" value="{{auth.id}}" />
+                    <button class="btn btn-primary btn-sm" type="submit">Add</button>
+                </form>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

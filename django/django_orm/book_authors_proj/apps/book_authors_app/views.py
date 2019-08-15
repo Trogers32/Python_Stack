@@ -26,13 +26,21 @@ def book_description(request, num):
 def author_info(request, num):
     auth_context = {
         'auth' : Author.objects.get(id=num),
-        # 'auth_books' : Book.objects.filter(author=num)
+        'auth_books' : Book.objects.filter(author=num),
+        'other_books' : Book.objects.exclude(author=num)
     }
     return render(request, "main/author_info.html", auth_context)
     
 def add_book(request):
     Book.objects.create(title=request.POST['title'], desc=request.POST['desc'])
     return redirect('/')
+
+def append_book(request):
+    book_title = request.POST['books']
+    bid = request.POST['hidden']
+    book_title = Book.objects.get(title=book_title)
+    Author.objects.get(id=bid).books.add(book_title)
+    return redirect(f'/authors/{bid}')
     
 def add_author(request):
     auth_name = request.POST['authors']
