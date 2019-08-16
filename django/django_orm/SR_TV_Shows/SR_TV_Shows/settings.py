@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-DATE_INPUT_FORMATS = ['%m-%d-%Y']
+DATE_INPUT_FORMATS = ['%m/%d/%Y']
 
 INSTALLED_APPS = [
     'apps.tv_shows',

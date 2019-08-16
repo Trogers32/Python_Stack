@@ -1,54 +1,79 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Books & Authors</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <title>Update</title>
 
-    <!doctype html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <title>Books & Authors</title>
-    
-        <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/checkout/">
-    
-        <!-- Bootstrap core CSS -->
-        {% load static %}
-        <link rel="stylesheet" href="{% static 'main/css/bootstrap.css' %}">    
-        <script src="{% static 'main/js/bootstrap.js' %}"></script>
-    
-        <!-- Custom styles for this template -->
-        <link href="form-validation.css" rel="stylesheet">
-    </head>
-    <body class="bg-light">
-        <div class="container">
-            <h1>{{auth.first_name}} {{auth.last_name}}</h1>
-            <h2>{{auth.id}}</h2>
-            <div>
-                <h2>Notes</h2>
-                <p>
-                    {{auth.notes}}
-                </p>
-                <h2>Books:</h2>
-                <ul>
-                    {% for book in auth_books %}
-                        <li>{{book.title}}</li>
-                    {% endfor %}
-                </ul>
-                <form class="mt-4" action="/append_book" method="post">
-                    {% csrf_token %}
-                    <select name="books">
-                        {% for book in other_books %}
-                            <option value="{{book.title}}">{{book.title}}</option>
-                        {% endfor %}
-                    </select>
-                    <input type="hidden" name="hidden" value="{{auth.id}}" />
-                    <button class="btn btn-primary btn-sm" type="submit">Add</button>
-                </form>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/checkout/">
+
+    <!-- Bootstrap core CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/bootstrap.css' %}">    
+    <script src="{% static 'main/js/bootstrap.js' %}"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'main/css/form-validation.css' %}" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="col-md-8 mx-auto">
+            <a class="float-right" href="/shows"><u>Go Back</u></a>
+            <h1 class="mb-3">Edit Show {{show.id}}</h1>
+            <form class="needs-validation" action="/update/{{show.id}}" method="post" novalidate>
+                {% csrf_token %}
+                <div class="w-75 mb-3 row mt-4">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" name="title" value="{{show.title}}"required>
+                    <div class="invalid-feedback">
+                        Valid first name is required.
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="w-25 mb-3 mt-4">
+                        <label>Network</label>
+                        <input type="text" class="form-control" name="network" value="{{show.network}}" required>
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+                    <div class="w-25 mb-3 ml-5 mt-4">
+                        <label>Release Date</label>
+                        <input class="form-control" onfocus="(this.type='date')" onblur="(this.type='text')" name="date" placeholder="{{cdate}}" required>
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="row w-75 mb-3 mt-4">
+                    <label>Description</label>
+                    <textarea class="form-control" name="desc" required>{{show.desc}}</textarea>
+                    <div class="invalid-feedback">
+                        Valid last name is required.
+                    </div>
+                </div>
+                <div class="row w-75 mt-4">
+                    <button class="btn btn-primary btn-md mx-auto" type="submit">Update</button>
+                </div>
+            </form>
+            <div class="row w-75 mt-4">
+                <a class="mx-auto" href="/shows/{{show.id}}"><u>Go to Show</u></a>
             </div>
+            <!--ERROR MESSAGES-->
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }} mt-4" style="color:red;"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <!--END ERROR MESSAGES-->
         </div>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-        <script src="form-validation.js"></script></body>
-    </html>
-    
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script src="form-validation.js"></script>
+</body>
+</html>

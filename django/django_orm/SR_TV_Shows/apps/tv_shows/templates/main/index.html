@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
-        <title>Books & Authors</title>
+        <title>Read (All)</title>
 
         <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/checkout/">
 
@@ -33,23 +33,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for book in books %}
+                        {% for show in shows %}
                             <tr>
-                                <th scope="row">{{book.id}}</th>
-                                <td>{{book.title}}</td>
-                                <td>{{book.title}}</td>
-                                <td>{{book.title}}</td>
+                                <th scope="row">{{show.id}}</th>
+                                <td>{{show.title}}</td>
+                                <td>{{show.network}}</td>
+                                <td>{{show.release_date}}</td>
                                 <td>
-                                    <a href="/books/{{book.id}}">Show</a> |
-                                    <a href="/books/{{book.id}}">Edit</a> |
-                                    <a href="/books/{{book.id}}">Delete</a>
+                                    <a href="/shows/{{show.id}}">Show</a> |
+                                    <a href="/shows/{{show.id}}/edit">Edit</a> |
+                                    <a href="/shows/delete/{{show.id}}">Delete</a>
                                 </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <a href="/books/{{book.id}}">Add a New Show</a>
+            <a href="/shows/new">Add a New Show</a>
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
