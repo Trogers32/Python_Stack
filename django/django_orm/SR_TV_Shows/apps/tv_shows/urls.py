@@ -10,4 +10,6 @@ urlpatterns = [
     url(r'^update/(?P<num>\d+)$', views.update),
     url(r'^shows/(?P<num>\d+)$', views.show_info),
     url(r'^shows/delete/(?P<num>\d+)$', views.delete_show),
+    url(r'^purchase$', views.purchase),
+    url(r'^thank_you$', views.thanks),
 ]

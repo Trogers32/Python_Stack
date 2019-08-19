@@ -14,11 +14,9 @@ def add_show(request):
 	return render(request, "main/add_show.html")
 
 def add(request):
-    # pass the post data to the method we wrote and save the response in a variable called errors
     errors = Show.objects.basic_validator(request.POST)
         # check if the errors dictionary has anything in it
     if len(errors) > 0:
-        # if the errors dictionary contains anything, loop through each key-value pair and make a flash message
         for key, value in errors.items():
             messages.error(request, value)
         # redirect the user back to the form to fix the errors
@@ -45,11 +43,9 @@ def show_info(request, num):
     return render(request, "main/show_info.html", context)
 
 def update(request, num):
-    # pass the post data to the method we wrote and save the response in a variable called errors
     errors = Show.objects.basic_validator(request.POST)
         # check if the errors dictionary has anything in it
     if len(errors) > 0:
-        # if the errors dictionary contains anything, loop through each key-value pair and make a flash message
         for key, value in errors.items():
             messages.error(request, value)
         # redirect the user back to the form to fix the errors
@@ -60,6 +56,20 @@ def update(request, num):
     else:
         Show.objects.filter(id=num).update(title=request.POST['title'], network=request.POST['network'], desc=request.POST['desc'], release_date=request.POST['date'])
         return redirect(f"/shows/{num}")
+        
+def purchase(request):
+    if 'total_purchased' not in request.session:
+        request.session['total_purchased'] = int(request.form['amount'])
+    else:
+        request.session['total_purchased'] += int(request.form['amount'])
+    context = {
+        "total" : Show.objects.get(id=int(request.form['hidden']).price) * int(request.FORM['amount'])
+    }
+    
+    return redirect("/thank_you")
+    
+def thanks(request):
+    return render
 
 def delete_show(request, num):
     Show.objects.get(id=num).delete()
