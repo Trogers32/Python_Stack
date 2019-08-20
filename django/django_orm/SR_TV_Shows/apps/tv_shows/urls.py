@@ -12,4 +12,10 @@ urlpatterns = [
     url(r'^shows/delete/(?P<num>\d+)$', views.delete_show),
     url(r'^purchase$', views.purchase),
     url(r'^thank_you$', views.thanks),
+    url(r'^destroy$', views.destroy),
+    url(r'^lr$', views.home),
+    url(r'^register$', views.register),
+    url(r'^login$', views.login),
+    url(r'^success$', views.success),
+    url(r'^logout$', views.logout),
 ]
