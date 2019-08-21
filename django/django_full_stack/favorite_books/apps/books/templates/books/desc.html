@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <title>Read (All)</title>
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/checkout/">
+
+        <!-- Bootstrap core CSS -->
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'main/css/bootstrap.css' %}">    
+        <script src="{% static 'main/js/bootstrap.js' %}"></script>
+
+        <!-- Custom styles for this template -->
+        <link href="form-validation.css" rel="stylesheet">
+    </head>
+    <body class="bg-light">
+        <nav class="navbar navbar-light bg-white w-50 mx-auto">
+            <a href="#" class="navbar-brand">Welcome, {{user.first_name}}!</a>
+            <form class="form-inline">
+                <div class="input-group">
+                    <a href="/login/logout"><u>Log out</u></a>
+                </div>
+                </div>
+            </form>
+        </nav>
+        <div class="w-50 mx-auto">
+            <div class="col-md-5 d-inline-block">
+                <form action="/books/update/{{book.id}}" method="POST">
+                    {% if book.uploaded_by == user %}
+                    <h2><textarea name="title" cols="20" rows="1" placeholder="{{book.title}}" required="required">{{book.title}}</textarea></h2>
+                    {% else %}
+                        <h2>{{book.title}}</h2>
+                    {% endif %}
+                    <h6>Added by: {{user.first_name}} {{user.last_name}}</h6>
+                    <h6>Added on: {{book.created_at}}</h6>
+                    <h6>Last updated on: {{book.updated_at}}</h6>
+                    <div>
+                        <h6 class="d-inline-block align-top">Description: </h6>
+                        <div class="text-right d-inline-block">
+                            {% csrf_token %}
+                            {% if book.uploaded_by == user %}
+                                <textarea name="description" cols="30" rows="5" placeholder="{{book.desc}}" required="required">{{book.desc}}</textarea>
+                                <div class="d-block">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+                                    <form action="/books/delete/{{book.id}}" method="POST" class="text-right d-inline-block">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <h6>{{book.desc}}</h6>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!--ERROR MESSAGES-->
+                    {% if messages %}
+                    <ul class="messages" style="list-style-type:none;">
+                        {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }} mt-4" style="color:red;"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <!--END ERROR MESSAGES-->
+            </div>
+            <div class="col-md-4 d-inline-block align-top">
+                <h2>Users Who Like This Book:</h2>
+                <ul>
+                {% for u in book.favorites.all %}
+                <li class="ml-4">{{u.first_name}} {{u.last_name}}
+                    {%if u.id == user.id %}
+                        <a href="/books/def/{{book.id}}"><u>Un-Favorite</u></a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+                </ul>
+                {% if user in book.favorites.all %}
+                {% else %}
+                    <a href="/books/page/add/{{book.id}}"><u>Add to Favorites</u></a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="w-25 mx-auto mr-3">
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
