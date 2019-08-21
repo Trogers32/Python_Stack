@@ -16,7 +16,7 @@ def index(request):
         }
         return render(request, "wall/index.html", context)
     except:
-        return redirect("/")
+        return redirect("/") 
 
 def post_message(request):
     uid = int(request.POST['user'])
