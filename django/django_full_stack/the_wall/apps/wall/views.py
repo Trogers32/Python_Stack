@@ -20,7 +20,7 @@ def index(request):
 
 def post_message(request):
     uid = int(request.POST['user'])
-    uid = User.objects.get(id=uid)
+    uid = User.objects.get(id=uid) 
     Message.objects.create(user=uid, message=request.POST['message_text'])
     return redirect("/wall")
 
