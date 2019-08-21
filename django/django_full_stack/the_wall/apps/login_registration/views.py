@@ -3,6 +3,7 @@ from django.contrib import messages
 from .models import *
 import datetime
 import bcrypt
+from django.core.urlresolvers import reverse
 
 ###########################################################
 ###########################################################
@@ -18,9 +19,12 @@ def success(request):
         context = {
             "user" : User.objects.get(id=uid),
         }
-        return render(request, "main/success.html", context)
+        return redirect("/wall")
     except:
         return render(request, "main/FAIL.html")
+
+def fail(request):
+    return render(request, "main/FAIL.html")
 
 def register(request):
     errors = User.objects.register_validator(request.POST)

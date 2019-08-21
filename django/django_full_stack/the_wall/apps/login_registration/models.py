@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
 from django.db import models
-from datetime import datetime
+from datetime import datetime, timedelta
 import bcrypt
+import pytz
 
 
 class User_validation(models.Manager):   
@@ -42,6 +43,35 @@ class User_validation(models.Manager):
             errors['pword'] = "Incorrect email or password."
         return errors
 
+class Delete_validation(models.Manager): 
+    def delete_validator(self, postData):
+        errors = {}  
+        cid = int(postData['del_comm'])
+        check = Comment.objects.get(id=cid)
+        utc=pytz.UTC
+        tc = check.created_at
+        ct = datetime.utcnow()
+        tc = tc.replace(tzinfo=None)
+        tc = ct-tc
+        tc = tc.seconds / 60
+        if tc > 30:
+            errors["date"] = "Messages and comments cannot be deleted after 30 minutes."
+        return errors
+
+    def delete_mess_validator(self, postData):
+        errors = {}  
+        cid = int(postData['del_mess'])
+        check = Message.objects.get(id=cid)
+        utc=pytz.UTC
+        tc = check.created_at
+        ct = datetime.utcnow()
+        tc = tc.replace(tzinfo=None)
+        tc = ct-tc
+        tc = tc.seconds / 60
+        if tc > 30:
+            errors["date"] = "Messages and comments cannot be deleted after 30 minutes."
+        return errors
+
 
 class User(models.Model):
     first_name = models.CharField(max_length=255)
@@ -58,6 +88,7 @@ class Message(models.Model):
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = Delete_validation()
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -65,3 +96,4 @@ class Comment(models.Model):
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = Delete_validation()

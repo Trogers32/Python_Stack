@@ -23,13 +23,13 @@
                 <a href="#" class="navbar-brand">Coding Dojo Wall</a>
                 <form class="form-inline">
                     <div class="input-group">
-                            <a href="/login/logout"><u>Log off</u></a>
-                        </div>
+                        <h6 class="mr-5">Welcome, {{user.first_name}}!</h6>
+                        <a href="/login/logout"><u>Log off</u></a>
+                    </div>
                     </div>
                 </form>
             </nav>
-        
-        <!--- \\\\\\\Post-->
+        <!--- \\\\\\\Post Box-->
         <div class="w-50 mx-auto">
             <div class="card gedf-card">
                 <div class="card-header">
@@ -39,68 +39,122 @@
                         </li>
                     </ul>
                 </div>
-                <div class="card-body">
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
-                            <div class="form-group">
-                                <label class="sr-only" for="message">post</label>
-                                <textarea class="form-control" id="message" rows="3" placeholder="What are you thinking?"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="btn-toolbar justify-content-between">
-                        <div class="btn-group"></div>
-                        <div class="btn-group">
-                            <button type="submit" class="btn btn-primary">Post message</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Post /////-->
-
-            <!--- \\\\\\\Post-->
-            <div class="card gedf-card mt-2">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="ml-2">
-                                <div class="h7 text-muted">NAME AND DATE</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae nulla rem eos ipsa praesentium esse magnam nemo dolor
-                        sequi fuga quia quaerat cum, obcaecati hic, molestias minima iste voluptates.
-                    </p>
-                </div>
-                <div class="card gedf-card w-75 mx-auto">
-                    <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Post a comment</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
+                <form action="/wall/post" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="user" value="{{user.id}}">
+                    <div class="card-body shadow-sm">
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
                                 <div class="form-group">
                                     <label class="sr-only" for="message">post</label>
-                                    <textarea class="form-control" id="message" rows="3" placeholder="What are you thinking?"></textarea>
+                                    <textarea name="message_text" class="form-control shadow-sm" id="message" rows="3" placeholder="What are you thinking?"></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="btn-toolbar justify-content-between">
                             <div class="btn-group"></div>
                             <div class="btn-group">
-                                <button type="submit" class="btn btn-primary">Post comment</button>
+                                <button type="submit" class="btn-sm btn-primary shadow">Post message</button>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
+            <!-- Post Box/////-->
+
+            <div class="w-50 mx-auto text-center">
+                    <!--ERROR MESSAGES-->
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }} mt-4" style="color:red;list-style: none;"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <!--END ERROR MESSAGES-->
+                </div>
+
+            <!--- \\\\\\\Post-->
+            {%for message in pmessages %}
+                <div class="card gedf-card mt-2">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="ml-2">
+                                <div class="h7 text-muted">{{message.user.first_name}} - {{message.created_at}}</div>
+                            </div>
+                            {% if message.user.id == request.session.user_id %}
+                                <form action="/wall/delete_message" method="POST" >
+                                    {% csrf_token %}
+                                    <input type="hidden" name="del_mess" value="{{message.id}}">
+                                    <button type="submit" class="btn-sm btn-danger shadow">Delete message?</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text shadow-sm pb-2">
+                            {{message.message}}
+                        </p>
+                    </div>
+                    {% for comment in comments %}
+                        {% if comment.message == message %}
+                            <div class="card gedf-card w-75 mx-auto shadow-sm mb-2">
+                                <div class="card-header">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="ml-2">
+                                                <div class="h7 text-muted">{{comment.user.first_name}} - {{comment.created_at}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text shadow-sm pb-2">
+                                        {{comment.comment}}
+                                    </p>
+                                </div>
+                                {% if comment.user.id == request.session.user_id %}
+                                    <form action="/wall/delete_comment" method="POST" class="text-right">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="del_comm" value="{{comment.id}}">
+                                        <button type="submit" class="btn-sm btn-danger shadow mr-2 mb-3">Delete comment?</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="card gedf-card w-75 mx-auto shadow-sm mb-2">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Post a comment</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <form action="/wall/post_comment" method="POST">
+                            {% csrf_token %}
+                                <input type="hidden" name="user" value="{{user.id}}">
+                                <input type="hidden" name="mess" value="{{message.id}}">
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="message">post</label>
+                                            <textarea name="comment_text" class="form-control shadow-sm" id="message" rows="3" placeholder="Got a comment?"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn-toolbar justify-content-between">
+                                    <div class="btn-group"></div>
+                                    <div class="btn-group">
+                                        <button type="submit" class="btn btn-primary shadow">Post comment</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
         <!-- Post /////-->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
