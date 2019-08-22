@@ -12,7 +12,8 @@ def home(request):
         uid = int(request.session['user_id'])
         context = {
             "user" : User.objects.get(id=uid),
-            "books" : Book.objects.all(),
+            "reviews" : Review.objects.all().order_by("-created_at")[:3],
+            "other_reviews" : Review.objects.all().order_by("-created_at")[3:],
         }
         return render(request, "books/index.html", context)
     except:
@@ -23,10 +24,37 @@ def add(request):
         uid = int(request.session['user_id'])
         context = {
             "user" : User.objects.get(id=uid),
+            "authors" : Author.objects.all(),
         }
         return render(request, "books/addBook.html", context)
     except:
         return redirect("/")
+
+def user(request, num):
+# try:
+    uid = int(request.session['user_id'])
+    uid = User.objects.get(id=uid)
+    context = {
+        "user" : User.objects.get(id=num),
+        "reviews" : Review.objects.filter(reviewer=uid),
+        "lr" : len(Review.objects.filter(reviewer=uid)),
+    }
+    return render(request, "books/user.html", context)
+# except:
+    return redirect("/")
+
+def book(request, num):
+# try:
+    uid = int(request.session['user_id'])
+    bid = Book.objects.get(id=num)
+    context = {
+        "user" : User.objects.get(id=num),
+        "reviews" : Review.objects.filter(book=bid),
+        "book" : bid,
+    }
+    return render(request, "books/desc.html", context)
+# except:
+    return redirect("/")
 
 def add_book(request):
     try:
@@ -40,7 +68,7 @@ def add_book(request):
             author = Author.objects.filter(name=author).first()
             Book.objects.create(title=title, author=author)
             book = Book.objects.filter(title=title).first()
-            Review.objects.create(reviewer=uid, book=book, rating=request.POST['rating'], content=request.POST['review'])
+            rev = Review.objects.create(reviewer=uid, book=book, rating=request.POST['rating'], content=request.POST['review'])
             return redirect('/books')
         else:
             # create author
@@ -50,10 +78,16 @@ def add_book(request):
             author = request.POST['new_auth']
             author = Author.objects.create(name=author)
             book = Book.objects.create(title=title, author=author)
-            Review.objects.create(reviewer=uid, book=book, rating=request.POST['rating'], content=request.POST['review'])
+            rev = Review.objects.create(reviewer=uid, book=book, rating=request.POST['rating'], content=request.POST['review'])
             return redirect('/books')
     except:
-        redirect('/books/add')
+        redirect('/')
+
+
+
+
+
+
 
 def add_favorite(request, num):
     try:
