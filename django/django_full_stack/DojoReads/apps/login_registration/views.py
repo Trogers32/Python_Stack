@@ -16,9 +16,9 @@ def home(request):
 def success(request):
     try:
         uid = int(request.session['user_id'])
-        # context = {
-        #     "user" : User.objects.get(id=uid),
-        # }
+        context = {
+            "user" : User.objects.get(id=uid),
+        }
         return redirect("/books")
     except:
         return render(request, "main/FAIL.html")

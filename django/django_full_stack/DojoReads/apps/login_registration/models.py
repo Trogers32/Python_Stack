@@ -3,6 +3,8 @@ from django.db import models
 from datetime import datetime, timedelta
 import bcrypt
 import pytz
+from validate_email import validate_email
+import re
 
 
 class User_validation(models.Manager):   
@@ -15,6 +17,14 @@ class User_validation(models.Manager):
             errors["alias"] = "Last name should be at least 2 characters long."
         if User.objects.filter(email=postData['email']).first():
             errors["email"] = "Email already registered."
+        elif postData['email'] == '':
+            errors["email"] = "Email can't be blank."
+        else:
+            is_valid = validate_email(postData['email'])
+            if is_valid == False:
+                errors["email"] = "Invalid email."
+            elif not re.match(r"[^@]+@[^@]+\.[^@]+",postData['email']):
+                errors["email"] = "Invalid email."
         if len(postData['password']) < 8:
             errors["password"] = "Password needs to be at least 8 characters long."
         elif postData['password'] != postData['confirm_password']:
@@ -36,8 +46,8 @@ class Book_validation(models.Manager):
     def book_validator(self, postData):
         errors = {}
         # add keys and values to errors dictionary for each invalid field
-        if len(postData['description']) < 5:
-            errors["desc"] = "Description needs at least 5 characters."
+        if len(postData['review']) < 5:
+            errors["desc"] = "Review needs at least 5 characters."
         return errors
 
 class User(models.Model):

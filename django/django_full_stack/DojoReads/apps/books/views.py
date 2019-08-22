@@ -4,6 +4,8 @@ from apps.login_registration.models import *
 import datetime
 import bcrypt
 from django.core.urlresolvers import reverse
+from django import template
+
 
 def home(request):
     try:
@@ -11,32 +13,47 @@ def home(request):
         context = {
             "user" : User.objects.get(id=uid),
             "books" : Book.objects.all(),
-            "fav" : Book.objects.filter(favorites=uid),
         }
         return render(request, "books/index.html", context)
     except:
         return redirect("/")
 
+def add(request):
+    try:
+        uid = int(request.session['user_id'])
+        context = {
+            "user" : User.objects.get(id=uid),
+        }
+        return render(request, "books/addBook.html", context)
+    except:
+        return redirect("/")
+
 def add_book(request):
     try:
-        errors = Book.objects.book_validator(request.POST)
-            # check if the errors dictionary has anything in it
-        if len(errors) > 0:
-            for key, value in errors.items():
-                messages.error(request, value)
-            return redirect("/books")
-        else:
-            uid = int(request.session['user_id'])
+        uid = int(request.session['user_id'])
+        uid = User.objects.get(id=uid)
+        if request.POST['new_auth'] == '':
+            # create book
+            # create review
             title = request.POST['title']
-            desc = request.POST['description']
-            user = int(request.session['user_id'])
-            user = User.objects.get(id=user)
-            Book.objects.create(uploaded_by=user, title=request.POST['title'], desc=request.POST['description'])
-            fav_book = Book.objects.get(title=request.POST['title'])
-            user.favorite_books.add(fav_book)
+            author = request.POST['author']
+            author = Author.objects.filter(name=author).first()
+            Book.objects.create(title=title, author=author)
+            book = Book.objects.filter(title=title).first()
+            Review.objects.create(reviewer=uid, book=book, rating=request.POST['rating'], content=request.POST['review'])
+            return redirect('/books')
+        else:
+            # create author
+            # create book
+            # create review
+            title = request.POST['title']
+            author = request.POST['new_auth']
+            author = Author.objects.create(name=author)
+            book = Book.objects.create(title=title, author=author)
+            Review.objects.create(reviewer=uid, book=book, rating=request.POST['rating'], content=request.POST['review'])
             return redirect('/books')
     except:
-        redirect('/login')
+        redirect('/books/add')
 
 def add_favorite(request, num):
     try:
