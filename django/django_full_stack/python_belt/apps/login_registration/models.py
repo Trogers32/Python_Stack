@@ -50,14 +50,14 @@ class User_validation(models.Manager):
 #             errors["desc"] = "Review needs at least 5 characters."
 #         return errors
 
-# class User(models.Model):
-#     name = models.CharField(max_length=255)
-#     alias = models.CharField(max_length=255)
-#     email = models.EmailField(max_length=255)
-#     password = models.CharField(max_length=255)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     objects = User_validation()
+class User(models.Model):
+    name = models.CharField(max_length=255)
+    alias = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255)
+    password = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = User_validation()
 
 # class Author(models.Model):
 #     name = models.CharField(max_length=255)

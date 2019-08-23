@@ -19,7 +19,7 @@ def success(request):
         context = {
             "user" : User.objects.get(id=uid),
         }
-        return redirect("/books")
+        return redirect("/belt")
     except:
         return render(request, "main/FAIL.html")
 
